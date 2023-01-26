@@ -1,0 +1,47 @@
+/*-- scss:defaults --*/
+
+// // fonts
+// $font-family-sans-serif: "Palatino Linotype", "Book Antiqua", Palatino,
+//   FreeSerif, serif !default;
+
+// // colors
+// $body-bg: #f0f1eb !default;
+// $body-color: #000 !default;
+// $link-color: #51483d !default;
+// $selection-bg: #26351c !default;
+
+// headings
+// $presentation-heading-font: "Palatino Linotype", "Book Antiqua", Palatino,
+//   FreeSerif, serif !default;
+// $presentation-heading-color: #383d3d !default;
+
+// /*-- scss:rules --*/
+
+// .reveal a {
+//   line-height: 1.3em;
+// }
+
+// // reveal-auto-agenda settings
+// #agenda {
+// }
+
+// .agenda-slide h1 {
+//   size: 0em;
+//   display: none;
+// }
+
+// .agenda-inactive {
+//   opacity: 0.25;
+//   margin-top: -0.5em;
+//   margin-bottom: -0.5em;
+// }
+
+// .agenda-active {
+//   margin-top: -0.5em;
+//   margin-bottom: -0.5em;
+// }
+
+.esi-emph {
+    color: #0c7869;
+    font-weight: bold;
+}

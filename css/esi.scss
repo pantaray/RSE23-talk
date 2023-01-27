@@ -4,10 +4,12 @@
 // $font-family-sans-serif: "Palatino Linotype", "Book Antiqua", Palatino,
 //   FreeSerif, serif !default;
 
-// // colors
+// colors
+$baseColor: #0c7869;
 // $body-bg: #f0f1eb !default;
 // $body-color: #000 !default;
-// $link-color: #51483d !default;
+// $link-color: lighten($baseColor, 5%);
+$link-color: $baseColor;
 // $selection-bg: #26351c !default;
 
 // headings
@@ -42,6 +44,43 @@
 // }
 
 .esi-emph {
-    color: #0c7869;
+    color: $baseColor;
     font-weight: bold;
+}
+
+.reveal .esi-lr-gradient {
+    height: 1em;
+    background-image: linear-gradient(to right, $baseColor, white);
+}
+
+.reveal .esi-rl-gradient {
+    height: 1em;
+    background-image: linear-gradient(to right, white, $baseColor);
+}
+
+.reveal .esi-header {
+    position: absolute;
+    top: 0.3em;
+    left: 1em;
+    width: 60%;
+    height: 1em;
+}
+
+.reveal .esi-footer {
+    position: absolute;
+    bottom: 0.3em;
+    right: 1em;
+    width: 94%;
+    height: 1em;
+}
+
+.reveal .footer-row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.reveal .footer-col {
+    float: left;
+    width: 49%;
 }

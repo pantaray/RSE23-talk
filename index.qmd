@@ -1,0 +1,38 @@
+---
+title: "ACME"
+subtitle: "Flexible Scalability for Research Software"
+author:
+  - Stefan Fürtinger, ESI Frankfurt
+  - Dr. Allison Horst, UC Santa Barbara
+  - Dr. Alison Hill, Voltron Data
+date: 23.02.2023
+institute:
+  - ESI
+  - Bremen
+format:
+  revealjs:
+    theme: [white, css/esi.scss]
+    slide-number: true
+    chalkboard:
+      buttons: false
+    preview-links: auto
+    # logo: pix/quarto.png
+    # css: esi.css
+    # footer: <https://quarto.org>
+include-after-body: css/esi_borders.html
+# resources:
+#   - demo.pdf
+---
+
+## Getting up
+
+- asdf
+- Get out of bed early
+
+[This is some text]{.esi-emph}
+
+## Going to sleep
+
+- Get in bed
+- Count sheep
+

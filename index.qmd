@@ -12,17 +12,24 @@ institute:
 format:
   revealjs:
     theme: [white, css/esi.scss]
-    slide-number: true
+    slide-number: false
     chalkboard:
       buttons: false
     preview-links: auto
     # logo: pix/quarto.png
-    # css: esi.css
+    css: css/agenda.css
     # footer: <https://quarto.org>
 include-after-body: css/esi_borders.html
+filters:
+  - reveal-auto-agenda
+auto-agenda:
+  bullets: numbered
+  heading: Outline
 # resources:
 #   - demo.pdf
 ---
+
+# First Topic in Outline
 
 ## Getting up
 

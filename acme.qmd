@@ -20,16 +20,52 @@ format:
     preview-links: auto
     css: css/agenda.css
 include-after-body: css/esi_borders.html
+revealjs-plugins:
+  - attribution
 filters:
   - reveal-auto-agenda
 auto-agenda:
-  bullets: numbered
+  bullets: none
   heading: Outline
 # resources:
 #   - demo.pdf
 ---
 
-# First Topic in Outline
+# I Big Open Data Research Software Scalability
+
+## Big Data {transition="fade" transition-speed="slow"}
+
+::: {.r-stack}
+![](imgs/bmbf_bigdata.png){.absolute top="4em" left="-2em" width="50%"}
+![](imgs/sas_bigdata.png){.absolute top="3em" right="1em" width="50%"}
+:::
+
+::: {.attribution}
+Taken from [itsfoss.com](https://itsfoss.com/open-science/) and [JulieBeck](http://www.juliebcreative.com/portfolio/open-data-logo/)
+:::
+
+
+## Big Data | Open Data | FAIR Data
+
+![](imgs/open_science.jpg){.absolute top="4em" left="-2em" width="50%"}
+![](imgs/opendata.jpg){.absolute top="3em" right="1em" width="50%"}
+
+::: {.attribution}
+Taken from [itsfoss.com](https://itsfoss.com/open-science/) and [JulieBeck](http://www.juliebcreative.com/portfolio/open-data-logo/)
+:::
+
+
+## Currently {transition="fade"}
+
+- show sbatch script + problems w/Python path etc. (http://intranet.esi.local/confluence/display/SKB/SLURM+and+Python)
+- SLURM help page
+
+## Open Data
+https://data.gov/
+https://www.govdata.de/
+https://www.nature.com/sdata/
+
+
 
 ## Getting up
 
@@ -43,3 +79,18 @@ auto-agenda:
 - Get in bed
 - Count sheep
 
+# II This Is How We Do It
+
+## scikit learn
+
+Coming soon...
+
+## R
+
+Coming soon...
+
+## FSL
+
+Coming soon...
+
+# III An Offer You Can Refuse

@@ -1,5 +1,5 @@
 /.quarto/
-_extensions/
 *_files/
-*.html
+acme.html
+index.html
 /.luarc.json

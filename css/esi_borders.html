@@ -1,0 +1,29 @@
+<div class="esi-header">
+    <section>
+        <div class="esi-lr-gradient"></div>
+    </section>
+</div>
+
+<div class="esi-footer">
+    <section>
+      <div class="footer-row">
+        <div class="footer-col">
+          <img src="css/esi_logo.png" alt="ESI Logo" style="position: relative; height: 100%; bottom: 1.2em;">
+        </div>
+        <div class="footer-col">
+          <div class="esi-rl-gradient"></div>
+        </div>
+      </div>
+    </section>
+</div>
+
+<script>
+  function add_header() {
+    let header = document.querySelector("div.esi-header");
+    let footer = document.querySelector("div.esi-footer");
+    let reveal = document.querySelector(".reveal");
+    reveal.insertBefore(header, reveal.firstChild);
+    reveal.insertBefore(footer, reveal.firstChild);
+  }
+  window.onload = add_header();
+</script>

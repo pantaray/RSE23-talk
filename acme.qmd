@@ -19,6 +19,7 @@ format:
       buttons: false
     preview-links: auto
     css: css/agenda.css
+    code-line-numbers: false
 include-after-body: css/esi_borders.html
 revealjs-plugins:
   - attribution
@@ -33,32 +34,105 @@ auto-agenda:
 
 # I Big Open Data Research Software Scalability
 
-## Big Data {transition="fade" transition-speed="slow"}
+## Big Data {transition="fade-out"}
 
 ::: {.r-stack}
-![](imgs/bmbf_bigdata.png){.absolute top="4em" left="-2em" width="50%"}
-![](imgs/sas_bigdata.png){.absolute top="3em" right="1em" width="50%"}
+![](imgs/sas_bigdata.png){.fragment .fade-left .absolute top="2em" right="0em" width="55%"}
+![](imgs/bmbf_bigdata.png){.fragment .fade-right .absolute top="4em" left="0em" width="55%"}
+:::
+
+::: {.attribution}
+See [sas.com](https://www.sas.com/en_us/insights/big-data/what-is-big-data.html) and [bmbf.de](https://www.bmbf.de/bmbf/de/forschung/digitale-wirtschaft-und-gesellschaft/informationsgesellschaft/big-data/big-data-management-und-analyse-grosser-datenmengen.html)
+:::
+
+## Big Data | Open Data {transition="fade"}
+
+::: {.r-stack}
+![](imgs/sas_bigdata.png){.absolute top="2em" right="0em" width="55%"}
+![](imgs/bmbf_bigdata.png){.absolute top="4em" left="0em" width="55%"}
+![](imgs/opendata.jpg){.fragment .fade-right .absolute top="2em" left="1em" width="50%"}
+![](imgs/open_science.jpg){.fragment .fade-left .absolute bottom="2em" right="-1em" width="50%"}
 :::
 
 ::: {.attribution}
 Taken from [itsfoss.com](https://itsfoss.com/open-science/) and [JulieBeck](http://www.juliebcreative.com/portfolio/open-data-logo/)
 :::
 
+## Big Data | Open Data | FAIR Data {transition="fade-in"}
 
-## Big Data | Open Data | FAIR Data
-
-![](imgs/open_science.jpg){.absolute top="4em" left="-2em" width="50%"}
-![](imgs/opendata.jpg){.absolute top="3em" right="1em" width="50%"}
-
-::: {.attribution}
-Taken from [itsfoss.com](https://itsfoss.com/open-science/) and [JulieBeck](http://www.juliebcreative.com/portfolio/open-data-logo/)
+::: {.r-stack}
+![](imgs/sas_bigdata.png){.absolute top="2em" right="0em" width="55%"}
+![](imgs/bmbf_bigdata.png){.absolute top="4em" left="0em" width="55%"}
+![](imgs/opendata.jpg){.absolute top="2em" left="1em" width="50%"}
+![](imgs/open_science.jpg){.absolute bottom="2em" right="-1em" width="50%"}
+![](imgs/punch4nfdi.png){.fragment .fade-down .absolute top="2em" left="0em" width="90%"}
+![](imgs/nfdi4health.png){.fragment .fade-up .absolute bottom="1em" right="0em" width="90%"}
 :::
 
+::: {.attribution}
+See [nfdi.de](https://www.nfdi.de/?lang=en)
+:::
 
-## Currently {transition="fade"}
+## A Real Life Example
+
+::: {.r-stack}
+![](imgs/fastMRI_website.png){.fragment .fade-in-then-semi-out .absolute width="85%" top="1.5em" left="1em"}
+![](imgs/fastMRI_knee.png){.fragment .absolute width="40%" left="1em" top="4em"}
+![](imgs/fastMRI_brain.png){.fragment .absolute width="45%" right="1em" top="1.5em"}
+:::
+
+::: {.attribution}
+See [fastmri.med.nyu.edu](https://fastmri.med.nyu.edu/)
+:::
+
+## Scale Up or Out?
+
+:::: {.columns}
+
+::: {.column width="50%" .fragment .fade-right}
+[Scale Up]{.esi-emph}
+
+We Need a Bigger Boat
+<!-- ![](imgs/bigger_boat.jpg){style="opacity: 0.2"} -->
+![](imgs/bigger_boat.jpg){.fragment .semi-fade-out}
+
+::: {.incremental .absolute top="4.5em"}
+- [How much bigger?]{style="-webkit-text-stroke: 0.5px;"}
+- [How many passengers?]{style="-webkit-text-stroke: 0.5px;"}
+:::
+
+:::
+
+::: {.column width="50%" .fragment .fade-left}
+[Scale Out]{.esi-emph}
+
+We Need a... Quad?
+![](imgs/quadmaran.jpg){.fragment .semi-fade-out}
+:::
+
+::: {.incremental .absolute top="6.7em" left="13.5em" right="1em"}
+- [How do we get lifeboats on there?]{style="-webkit-text-stroke: 0.5px;"}
+- [How do we drive this?]{style="-webkit-text-stroke: 0.5px;"}
+:::
+
+::::
+
+::: {.attribution}
+Taken from *Jaws*, Universal Pictures, 1975 and [The Nautical Lore Capercast](http://outrigmedia.com/outrig/multihulls-media/nautical-lore-capercast-78-the-100-four-huller/)
+:::
+
+## Driving a Quadmaran {auto-animate=true}
+
+```python
+asdff
+```
 
 - show sbatch script + problems w/Python path etc. (http://intranet.esi.local/confluence/display/SKB/SLURM+and+Python)
 - SLURM help page
+
+# II This Is How We Do It
+
+##
 
 ## Open Data
 https://data.gov/

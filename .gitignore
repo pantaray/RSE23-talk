@@ -2,3 +2,4 @@
 *_files/
 acme.html
 /.luarc.json
+nilearn_cache/

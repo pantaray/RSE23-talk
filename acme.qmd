@@ -21,6 +21,7 @@ format:
     css: css/agenda.css
     code-line-numbers: false
     highlight-style: github
+    auto-play-media: true
 include-after-body: css/esi_borders.html
 revealjs-plugins:
   - attribution
@@ -74,7 +75,7 @@ Taken from [itsfoss.com](https://itsfoss.com/open-science/) and [JulieBeck](http
 See [nfdi.de](https://www.nfdi.de/?lang=en)
 :::
 
-## A Real Life Example
+## A Topical Example
 
 ::: {.r-stack}
 ![](imgs/fastMRI_website.png){.fragment .fade-in-then-semi-out .absolute width="85%" top="1.5em" left="1em"}
@@ -122,14 +123,19 @@ We Need a... Quad?
 Taken from *Jaws*, Universal Pictures, 1975 and [The Nautical Lore Capercast](http://outrigmedia.com/outrig/multihulls-media/nautical-lore-capercast-78-the-100-four-huller/)
 :::
 
-## Driving a Quadmaran {auto-animate=true}
+## Driving a Quadmaran {transition="fade-out"}
 
-```{.python code-line-numbers="||5,8-10,13-15" data-id="code1"}
+### Or Going from Laptop to SLURM
+
+## Driving a Quadmaran {transition="fade-in" auto-animate=true}
+
+```{.python code-line-numbers="|5-6,9-11,14-15" data-id="code1"}
 # Which subject do we want to analyze?
 subIdx = 0
 
 # Take stock of data on disk
 data = datasets.fetch_development_fmri(age_group="adult")
+atlasCoords = datasets.fetch_coords_power_2011()
 
 # Extract fMRI time-series averaged within spheres @ atlas coords
 mask = NiftiSpheresMasker(seeds=atlasCoords)
@@ -150,11 +156,12 @@ plotting.plot_connectome(estimator.covariance_)
 
 ## Driving a Quadmaran {auto-animate=true}
 
-```{.python data-id="code1" filename="connectome.py"}
-def compute_connectome(subIdx, coords):
+```{.python data-id="code1" code-line-numbers="1-16|" style="font-size: 0.8em; "}
+def compute_connectome(subIdx):
 
       # Take stock of data on disk
       data = datasets.fetch_development_fmri(age_group="adult")
+      atlasCoords = datasets.fetch_coords_power_2011()
 
       # Extract fMRI time-series averaged within spheres @ atlas coords
       masker = NiftiSpheresMasker(seeds=atlasCoords)
@@ -166,47 +173,212 @@ def compute_connectome(subIdx, coords):
       estimator.fit(timeseries)
 
       return estimator.covariance_
+
+if __name__ == "__main__":
+
+      # Compute functional connectivity of subject
+      con = compute_connectome(sys.argv[1])
+```
+
+## Driving a Quadmaran {auto-animate="true"}
+
+```{.python data-id="code2" filename="connectome.py" style="font-size: 0.8em; "}
+def compute_connectome(subIdx):
+
+      # Take stock of data on disk
+      data = datasets.fetch_development_fmri(age_group="adult")
+      atlasCoords = datasets.fetch_coords_power_2011()
+
+      # Extract fMRI time-series averaged within spheres @ atlas coords
+      masker = NiftiSpheresMasker(seeds=atlasCoords)
+      timeseries = masker.fit_transform(data.func[subIdx],
+                                        confounds=data.confounds[subIdx])
+
+      # Compute functional connectivity b/w brain regions
+      estimator = GraphicalLassoCV()
+      estimator.fit(timeseries)
+
+      # Save result
+      np.save("con_{}".format(subIdx), estimator.covariance_)
+      return
+
+if __name__ == "__main__":
+
+      # Compute functional connectivity of subject
+      con = compute_connectome(sys.argv[1])
 ```
 
 ## Driving a Quadmaran {auto-animate=true}
 
-```{.python data-id="code1" filename="connectome.py"}
+```{.python data-id="code2" filename="connectome.py"}
 ```
 
 . . .
 
-```{.bash data-id="code2" filename="run_connectome.sh"}
+```{.bash data-id="code3" filename="run_connectome.sh"}
 #!/bin/bash
-# Add the conda environment you want to run your script in to the $PATH. Use
-#   conda env list
-# to see the full path of all your conda environments
-PATH=/mnt/gs/home/<USERNAME>/.conda/envs/tatooine/bin/:$PATH
+#
+# SLURM script for computing per-subject connectomes
+#
+#SBATCH -J connectome_batch # Common name for the job-array
+#SBATCH -p myPartition      # Partition
+#SBATCH -c 2                # Use two cores
+#SBATCH -t 0-2:00           # Max run-time of 2 hours
+#SBATCH --mem 4000          # Request 4 GB of RAM
+#SBATCH -o con_%A_%a.out    # Redirect stdout/stderr to file
+#SBATCH --array=1-40        # Define job-array
 
-# Execute the Python script and pass two arguments along
-python example_job.py $1 $2
+source /path/to/conda/etc/profile.d/conda.sh
+conda activate myenv
+python connectome.py "$SLURM_ARRAY_TASK_ID"
 ```
 
+## Driving a Quadmaran {auto-animate=true}
 
+```{.python data-id="code2" filename="connectome.py"}
+```
 
-## Testdrive
+```{.bash data-id="code3" filename="run_connectome.sh"}
+```
+
+. . .
+
+```{data-id="code4"}
+sbatch run_connectome.sh
+```
+
+## Driving a Quadmaran {auto-animate=true}
+
+```{.python data-id="code2" filename="connectome.py"}
+```
+
+```{.bash data-id="code3" filename="run_connectome.sh"}
+```
+
+```{data-id="code4"}
+sbatch run_connectome.sh
+Submitted batch job 21607933
+
+squeue --me
+ACCOUNT JOBID PARTITION NODELIST PRIORITY TIME STATE
+fuertingers 21607933_3 8GBXS esi-svhpc46 25228545 0:11 RUNNING
+fuertingers 21607933_4 8GBXS esi-svhpc46 25228545 0:11 RUNNING
+fuertingers 21607933_5 8GBXS esi-svhpc29 25228545 0:11 RUNNING
+fuertingers 21607933_2 8GBXS esi-svhpc24 25228545 0:15 RUNNING
+fuertingers 21607933_1 8GBXS esi-svhpc24 25228545 0:16 RUNNING
+...
+```
+
+## Driving a Quadmaran {transition="fade"}
 
 <!-- ```{=html}
-<iframe src="imgs/subject0.html" width="75%"></iframe>
+<iframe src="imgs/sbatch.html" width="100%" height="80%"></iframe>
 ``` -->
 
-- show sbatch script + problems w/Python path etc. (http://intranet.esi.local/confluence/display/SKB/SLURM+and+Python)
-- SLURM help page
+![](imgs/sbatch_schedmd.gif)
 
 # II This Is How We Do It
 
-##
+## Asynchronous Computing Made ESI
 
-## Open Data
+![](imgs/acme_logo.png){.position .absolute left="0em" top="3em" width="22%"}
+
+::: {.incremental style="font-size: 0.9em; " .position .absolute left="8em" right="0em" top="3.5em"}
+- accelerates "simple", i.e., [embarassingly parallel]{.esi-emph}, workloads
+- [wraps]{.esi-emph} sequential code and [maps]{.esi-emph} on parallel computing hardware
+- DIY parallelization via [context manager]{.esi-emph} `ParallelMap` in Python
+- built on top of [[dask](https://www.dask.org/)]{.esi-emph} and
+  [[dask-jobqueue](https://jobqueue.dask.org/en/latest/)]{.esi-emph} to
+  integrate with HPC clusters
+  ![](imgs/dask.svg){.position .absolute left="-8em" top="6em" width="30%"}
+  ![](imgs/dask-jobqueue.png){.position .absolute left="-8em" top="9em" width="30%"}
+:::
+
+## An Unpractical Example
+
+```{.python}
+def f(x, y, z=3):
+    return (x + y) * z
+```
+
+[Objective:]{.esi-emph} Evaluate `f` for four different values of `x` and `y = 4`
+
+. . .
+
+`f(`[2]{.esi-emph}`, 4, z=3) = 18`
+
+`f(`[4]{.esi-emph}`, 4, z=3) = 24`
+
+`f(`[6]{.esi-emph}`, 4, z=3) = 30`
+
+`f(`[8]{.esi-emph}`, 4, z=3) = 36`
+
+## An Unpractical Example {auto-animate="true"}
+
+```{.python}
+def f(x, y, z=3):
+    return (x + y) * z
+```
+
+## An Unpractical Example {auto-animate="true"}
+
+```{.python}
+from acme import ParallelMap
+
+def f(x, y, z=3):
+    return (x + y) * z
+
+with ParallelMap(f, [2, 4, 6, 8], 4) as pmap:
+    pmap.compute()
+```
+
+## An Unpractical Example {auto-animate="true"}
+
+![](imgs/acme_simple.webm){.position .absolute height="100%" top="0em"}
+
+
+## Back To SLURM Connectomes...
+
+. . .
+
+```{.python data-id="code2" style="font-size: 0.8em; "}
+def compute_connectome(subIdx):
+
+      # Take stock of data on disk
+      data = datasets.fetch_development_fmri(age_group="adult")
+      atlasCoords = datasets.fetch_coords_power_2011()
+
+      # Extract fMRI time-series averaged within spheres @ atlas coords
+      masker = NiftiSpheresMasker(seeds=atlasCoords)
+      timeseries = masker.fit_transform(data.func[subIdx],
+                                        confounds=data.confounds[subIdx])
+
+      # Compute functional connectivity b/w brain regions
+      estimator = GraphicalLassoCV()
+      estimator.fit(timeseries)
+
+      # Save result
+      np.save("con_{}".format(subIdx), estimator.covariance_)
+      return
+
+if __name__ == "__main__":
+
+      with ParallelMap(compute_connectome, range(40) as pmap:
+          results = pmap.compute()
+
+
+      # Compute functional connectivity of subject
+      con = compute_connectome(sys.argv[1])
+```
+
+
+## BLAH
+
 https://data.gov/
 https://www.govdata.de/
 https://www.nature.com/sdata/
 
-
+ACME enables a clean separation of analysis tools from the underlying parallelization framework.
 
 ## Getting up
 
@@ -217,10 +389,10 @@ https://www.nature.com/sdata/
 
 ## Going to sleep
 
+
+
 - Get in bed
 - Count sheep
-
-# II This Is How We Do It
 
 ## scikit learn
 

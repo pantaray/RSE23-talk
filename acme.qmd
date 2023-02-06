@@ -34,7 +34,7 @@ auto-agenda:
 #   - demo.pdf
 ---
 
-# I Big Open Data Research Software Scalability
+# I Big Data Is Great
 
 ## Big Data {transition="fade-out"}
 
@@ -87,7 +87,7 @@ See [nfdi.de](https://www.nfdi.de/?lang=en)
 See [fastmri.med.nyu.edu](https://fastmri.med.nyu.edu/)
 :::
 
-## Scale Up or Out?
+## Scale Up or Out? {auto-animate=true}
 
 :::: {.columns}
 
@@ -122,6 +122,17 @@ We Need a... Quad?
 ::: {.attribution}
 Taken from *Jaws*, Universal Pictures, 1975 and [The Nautical Lore Capercast](http://outrigmedia.com/outrig/multihulls-media/nautical-lore-capercast-78-the-100-four-huller/)
 :::
+
+. . .
+
+::: {data-id="box1" style="background: rgba(0,0,0,0); width: 14em; height: 15em; border-radius: 50%; border: 0.2em solid red; " .absolute top="1em" right="0em" .fade}
+:::
+
+## We Bought a Quadmaran!
+
+Scheduler logos coming soon...
+
+# II Why ACME?
 
 ## Driving a Quadmaran {transition="fade-out"}
 
@@ -171,13 +182,13 @@ def compute_connectome(subIdx):
       # Compute functional connectivity b/w brain regions
       estimator = GraphicalLassoCV()
       estimator.fit(timeseries)
-
       return estimator.covariance_
 
 if __name__ == "__main__":
 
-      # Compute functional connectivity of subject
+      # Compute functional connectivity of subject and save result
       con = compute_connectome(sys.argv[1])
+      np.save("con_{}".format(sys.argv[1]), con)
 ```
 
 ## Driving a Quadmaran {auto-animate="true"}
@@ -197,15 +208,13 @@ def compute_connectome(subIdx):
       # Compute functional connectivity b/w brain regions
       estimator = GraphicalLassoCV()
       estimator.fit(timeseries)
-
-      # Save result
-      np.save("con_{}".format(subIdx), estimator.covariance_)
-      return
+      return estimator.covariance_
 
 if __name__ == "__main__":
 
       # Compute functional connectivity of subject
       con = compute_connectome(sys.argv[1])
+      np.save("con_{}".format(sys.argv[1]), con)
 ```
 
 ## Driving a Quadmaran {auto-animate=true}
@@ -226,7 +235,7 @@ if __name__ == "__main__":
 #SBATCH -t 0-2:00           # Max run-time of 2 hours
 #SBATCH --mem 4000          # Request 4 GB of RAM
 #SBATCH -o con_%A_%a.out    # Redirect stdout/stderr to file
-#SBATCH --array=1-40        # Define job-array
+#SBATCH --array=1-33        # Define job-array
 
 source /path/to/conda/etc/profile.d/conda.sh
 conda activate myenv
@@ -277,7 +286,9 @@ fuertingers 21607933_1 8GBXS esi-svhpc24 25228545 0:16 RUNNING
 
 ![](imgs/sbatch_schedmd.gif)
 
-# II This Is How We Do It
+## It All Started With A gist...
+
+![](imgs/acme_gist.png){.position .absolute height="80%" left="2em"}
 
 ## Asynchronous Computing Made ESI
 
@@ -337,11 +348,11 @@ with ParallelMap(f, [2, 4, 6, 8], 4) as pmap:
 ![](imgs/acme_simple.webm){.position .absolute height="100%" top="0em"}
 
 
-## Back To SLURM Connectomes...
+## Back To SLURM Connectomes...  {auto-animate=true}
 
 . . .
 
-```{.python data-id="code2" style="font-size: 0.8em; "}
+```{.python data-id="pmap" style="font-size: 0.8em; "}
 def compute_connectome(subIdx):
 
       # Take stock of data on disk
@@ -356,23 +367,64 @@ def compute_connectome(subIdx):
       # Compute functional connectivity b/w brain regions
       estimator = GraphicalLassoCV()
       estimator.fit(timeseries)
-
-      # Save result
-      np.save("con_{}".format(subIdx), estimator.covariance_)
-      return
+      return estimator.covariance_
 
 if __name__ == "__main__":
 
-      with ParallelMap(compute_connectome, range(40) as pmap:
-          results = pmap.compute()
-
-
-      # Compute functional connectivity of subject
+      # Compute functional connectivity of subject and save result
       con = compute_connectome(sys.argv[1])
+      np.save("con_{}".format(sys.argv[1]), con)
 ```
 
+## Back To SLURM Connectomes...  {auto-animate=true}
 
-## BLAH
+```{.python data-id="pmap" style="font-size: 0.8em; "}
+def compute_connectome(subIdx):
+
+      # Take stock of data on disk
+      data = datasets.fetch_development_fmri(age_group="adult")
+      atlasCoords = datasets.fetch_coords_power_2011()
+
+      # Extract fMRI time-series averaged within spheres @ atlas coords
+      masker = NiftiSpheresMasker(seeds=atlasCoords)
+      timeseries = masker.fit_transform(data.func[subIdx],
+                                        confounds=data.confounds[subIdx])
+
+      # Compute functional connectivity b/w brain regions
+      estimator = GraphicalLassoCV()
+      estimator.fit(timeseries)
+      return estimator.covariance_
+
+if __name__ == "__main__":
+
+      # Compute functional connectivity of subject and save result
+      with ParallelMap(compute_connectome, range(33)) as pmap:
+          results = pmap.compute()
+```
+
+## Back To SLURM Connectomes...
+
+show notebook
+
+## Back To SLURM Connectomes...
+
+show esi_cluster_setup and dask dashboard
+show HDF5 gymnastics (common datasets)?
+Show virtual dataset overview?
+
+# III An Offer You Can Refuse
+
+## Why Python?
+
+All ML/AI libraries live here (show scikit-learn?)
+
+Interface with R, C (FSL), FORTRAN etc.
+
+## How about
+
+<your-institution-here>_cluster_setup?
+
+## Summary
 
 https://data.gov/
 https://www.govdata.de/
@@ -380,30 +432,7 @@ https://www.nature.com/sdata/
 
 ACME enables a clean separation of analysis tools from the underlying parallelization framework.
 
-## Getting up
+## Thank You
 
-- asdf
-- Get out of bed early
+Photos?
 
-[This is some text]{.esi-emph}
-
-## Going to sleep
-
-
-
-- Get in bed
-- Count sheep
-
-## scikit learn
-
-Coming soon...
-
-## R
-
-Coming soon...
-
-## FSL
-
-Coming soon...
-
-# III An Offer You Can Refuse

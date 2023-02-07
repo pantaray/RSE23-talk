@@ -239,7 +239,7 @@ if __name__ == "__main__":
 
 source /path/to/conda/etc/profile.d/conda.sh
 conda activate myenv
-python connectome.py "$SLURM_ARRAY_TASK_ID"
+srun python connectome.py "$SLURM_ARRAY_TASK_ID"
 ```
 
 ## Driving a Quadmaran {auto-animate=true}
@@ -292,9 +292,9 @@ fuertingers 21607933_1 8GBXS esi-svhpc24 25228545 0:16 RUNNING
 
 ## Asynchronous Computing Made ESI
 
-![](imgs/acme_logo.png){.position .absolute left="0em" top="3em" width="22%"}
+![](imgs/acme_logo.png){.position .absolute left="0em" top="2em" width="22%"}
 
-::: {.incremental style="font-size: 0.9em; " .position .absolute left="8em" right="0em" top="3.5em"}
+::: {.incremental style="font-size: 0.9em; " .position .absolute left="8em" right="0em" top="2.5em"}
 - accelerates "simple", i.e., [embarassingly parallel]{.esi-emph}, workloads
 - [wraps]{.esi-emph} sequential code and [maps]{.esi-emph} on parallel computing hardware
 - DIY parallelization via [context manager]{.esi-emph} `ParallelMap` in Python
@@ -303,6 +303,15 @@ fuertingers 21607933_1 8GBXS esi-svhpc24 25228545 0:16 RUNNING
   integrate with HPC clusters
   ![](imgs/dask.svg){.position .absolute left="-8em" top="6em" width="30%"}
   ![](imgs/dask-jobqueue.png){.position .absolute left="-8em" top="9em" width="30%"}
+:::
+
+. . .
+
+::: {.position .absolute top="13.5em" left="3em"}
+```{.bash style="font-size: 1.3em; "}
+pip install esi-acme
+conda install -c conda-forge esi-acme
+```
 :::
 
 ## An Unpractical Example
@@ -348,11 +357,11 @@ with ParallelMap(f, [2, 4, 6, 8], 4) as pmap:
 ![](imgs/acme_simple.webm){.position .absolute height="100%" top="0em"}
 
 
-## Back To SLURM Connectomes...  {auto-animate=true}
+## Back To SLURM Connectomes...  {auto-animate="true"}
 
 . . .
 
-```{.python data-id="pmap" style="font-size: 0.8em; "}
+```{.python data-id="pmap" filename="connectome.py" style="font-size: 0.8em; "}
 def compute_connectome(subIdx):
 
       # Take stock of data on disk
@@ -378,7 +387,7 @@ if __name__ == "__main__":
 
 ## Back To SLURM Connectomes...  {auto-animate=true}
 
-```{.python data-id="pmap" style="font-size: 0.8em; "}
+```{.python data-id="pmap" filename="connectome.py" style="font-size: 0.8em; "}
 def compute_connectome(subIdx):
 
       # Take stock of data on disk
@@ -398,41 +407,337 @@ def compute_connectome(subIdx):
 if __name__ == "__main__":
 
       # Compute functional connectivity of subject and save result
-      with ParallelMap(compute_connectome, range(33)) as pmap:
+      with ParallelMap(compute_connectome, range(21)) as pmap:
           results = pmap.compute()
 ```
 
+. . .
+
+[...[or]{.esi-emph}]{.position .absolute left="10em" bottom="1em"}
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap, esi_cluster_setup
+```
+
+. . .
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap, esi_cluster_setup
+```
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+```{data-id="jupyter2" style="font-size: 0.4em; "}
+<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
+<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
+<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
+```
+
+. . .
+
+```{.python data-id="jupyter3" style="font-size: 0.8em; "}
+[3]: with ParallelMap(compute_connectome, subjectList, result_shape=(264, 264, None))) as pmap:
+         results = pmap.compute()
+```
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap, esi_cluster_setup
+```
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+```{data-id="jupyter2" style="font-size: 0.4em; "}
+<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
+<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
+<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
+```
+
+```{.python data-id="jupyter3" style="font-size: 0.8em; "}
+[3]: with ParallelMap(compute_connectome, subjectList, result_shape=(264, 264, None))) as pmap:
+         results = pmap.compute()
+```
+```{data-id="jupyter3" style="font-size: 0.4em; " code-line-numbers="2-3"}
+<ParallelMap> INFO: This is ACME v. 2022.12
+<ParallelMap> INFO: Attaching to global parallel computing client <Client: 'tcp://10.100.32.17:33661' processes=10 threads=10, memory=74.50 GiB>
+```
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap, esi_cluster_setup
+```
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+```{data-id="jupyter2" style="font-size: 0.4em; "}
+<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
+<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
+<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
+```
+
+```{.python data-id="jupyter3" style="font-size: 0.8em; "}
+[3]: with ParallelMap(compute_connectome, subjectList, result_shape=(264, 264, None))) as pmap:
+         results = pmap.compute()
+```
+```{data-id="jupyter3" style="font-size: 0.4em; " code-line-numbers="2-3"}
+<ParallelMap> INFO: This is ACME v. 2022.12
+<ParallelMap> INFO: Attaching to global parallel computing client <Client: 'tcp://10.100.32.17:33661' processes=10 threads=10, memory=74.50 GiB>
+```
+
+. . .
+
+::: {data-id="box1" style="background: rgba(0,0,0,0); width: 100%; height: 1em; border: 0.1em solid red; " .absolute top="10.5em" left="0em" .fade}
+:::
+
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap, esi_cluster_setup
+```
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+```{data-id="jupyter2" style="font-size: 0.4em; "}
+<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
+<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
+<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
+```
+
+```{.python data-id="jupyter3" style="font-size: 0.8em; "}
+[3]: with ParallelMap(compute_connectome, subjectList, result_shape=(264, 264, None))) as pmap:
+         results = pmap.compute()
+```
+```{data-id="jupyter3" style="font-size: 0.4em; color: red; " code-line-numbers="2-3"}
+<ParallelMap> INFO: This is ACME v. 2022.12
+<ParallelMap> INFO: Attaching to global parallel computing client <Client: 'tcp://10.100.32.17:33661' processes=10 threads=10, memory=74.50 GiB>
+<ParallelMap> INFO: Preparing 21 parallel calls of `compute_connectome` using 10 workers
+<ParallelMap> INFO: Log information available at /cs/slurm/fuertingers/fuertingers_20230207-093941
+100% |██████████| 21/21 [01:46<00:00]
+<ParallelMap> INFO: SUCCESS! Finished parallel computation. Results have been saved to /cs/home/fuertingers/ACME_20230207-094014-740639/compute_connectome.h5 with links to data payload located in /cs/home/fuertingers/ACME_20230207-094014-740639/compute_connectome_payload
+```
+
+::: {data-id="box1" style="background: rgba(0,0,0,0); width: 100%; height: 1em; border: 0.1em solid red; " .absolute top="10.5em" left="0em" .fade}
+:::
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap, esi_cluster_setup
+```
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+```{data-id="jupyter2" style="font-size: 0.4em; "}
+<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
+<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
+<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
+```
+
+```{.python data-id="jupyter3" style="font-size: 0.8em; "}
+[3]: with ParallelMap(compute_connectome, subjectList, result_shape=(264, 264, None))) as pmap:
+         results = pmap.compute()
+```
+```{data-id="jupyter3" style="font-size: 0.4em; "}
+<ParallelMap> INFO: This is ACME v. 2022.12
+<ParallelMap> INFO: Attaching to global parallel computing client <Client: 'tcp://10.100.32.17:33661' processes=10 threads=10, memory=74.50 GiB>
+<ParallelMap> INFO: Preparing 21 parallel calls of `compute_connectome` using 10 workers
+<ParallelMap> INFO: Log information available at /cs/slurm/fuertingers/fuertingers_20230207-093941
+100% |██████████| 21/21 [01:46<00:00]
+<ParallelMap> INFO: SUCCESS! Finished parallel computation. Results have been saved to /cs/home/fuertingers/ACME_20230207-094014-740639/compute_connectome.h5 with links to data payload located in /cs/home/fuertingers/ACME_20230207-094014-740639/compute_connectome_payload
+```
+
+::: {data-id="box1" style="background: rgba(0,0,0,0); width: 100%; height: 1.5em; border: 0.1em solid red; " .absolute top="12.9em" left="0em" .fade}
+:::
+
+. . .
+
+[...what?]{.position .absolute left="10em" bottom="1em"}
+
 ## Back To SLURM Connectomes...
 
-show notebook
+### ...in Jupyter
 
-## Back To SLURM Connectomes...
+```{.python data-id="jupyter4" style="font-size: 0.8em; "}
+[4]: pmap.results_container
+```
+. . .
 
-show esi_cluster_setup and dask dashboard
-show HDF5 gymnastics (common datasets)?
-Show virtual dataset overview?
+```{data-id="jupyter4" style="font-size: 0.4em; "}
+'/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome.h5'
+```
+
+. . .
+
+```{.python data-id="jupyter5" style="font-size: 0.8em; "}
+[5]: results
+```
+
+. . .
+
+```{data-id="jupyter5" style="font-size: 0.4em; "}
+['/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome_payload/compute_connectome_0.h5',
+ '/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome_payload/compute_connectome_1.h5',
+ '/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome_payload/compute_connectome_2.h5',
+ '/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome_payload/compute_connectome_3.h5',
+ '/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome_payload/compute_connectome_4.h5']
+```
+
+. . .
+
+::: {.incremental style="font-size: 0.85em; "}
+- single [aggregate results file]{.esi-emph} `compute_connectome.h5`
+  only points to data written by workers
+- each worker saves results [independently]{.esi-emph} to files in the `*_payload` directory
+- leverages [HDF5 Virtual Datasets]{.esi-emph}
+:::
+
+
+## Communication via Filesystem
+
+::: {.r-stack}
+![](imgs/virtual_dataset_illustration0.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
+![](imgs/virtual_dataset_illustration1.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
+![](imgs/virtual_dataset_illustration2.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
+![](imgs/virtual_dataset_illustration3.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
+![](imgs/virtual_dataset_illustration4.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
+:::
 
 # III An Offer You Can Refuse
 
-## Why Python?
+## Why Python? {auto-animate="true"}
 
-All ML/AI libraries live here (show scikit-learn?)
+. . .
 
-Interface with R, C (FSL), FORTRAN etc.
+Home to [modern ML/AI libraries]{.esi-emph}
 
-## How about
+```{.python style="font-size: 0.8em; "}
+from torch.optim import Adam
+from torch.nn import Sequential
+from acme import ParallelMap
 
-<your-institution-here>_cluster_setup?
+def hyper_par_tuning(learning_rate, epochs=10):
+  model = Sequential(...)
+  optimizer = Adam(model.parameters(), lr=learning_rate, betas=(0.5, 0.999))
+  ...
+  for epoch in range(epochs):
+    classifications = model(inputs)
+    loss = criterion(classifications, labels)
+    loss.backward()
+    optimizer.step()
+    ...
+```
 
-## Summary
+## Why Python? {auto-animate="true"}
 
-https://data.gov/
-https://www.govdata.de/
-https://www.nature.com/sdata/
+Home to [modern ML/AI libraries]{.esi-emph}
 
-ACME enables a clean separation of analysis tools from the underlying parallelization framework.
+```{.python style="font-size: 0.8em; "}
+from torch.optim import Adam
+from torch.nn import Sequential
+from acme import ParallelMap
+
+def hyper_par_tuning(learning_rate, epochs=10):
+  model = Sequential(...)
+  optimizer = Adam(model.parameters(), lr=learning_rate, betas=(0.5, 0.999))
+  ...
+  for epoch in range(epochs):
+    classifications = model(inputs)
+    loss = criterion(classifications, labels)
+    loss.backward()
+    optimizer.step()
+    ...
+with ParallelMap(hyper_par_tuning, np.linspace(1e-3, 1e-6, 100)) as pmap:
+  pmap.compute()
+```
+
+## Why Python? {auto-animate="true"}
+
+[Interfaces]{.esi-emph}...
+
+. . .
+
+...with [R]{.esi-emph}
+
+```{.python style="font-size: 0.8em; "}
+import subprocess
+
+def freesurf_preproc(subIdx):
+  cmd = "recon-all -s sub-{subj:d} -i sub-{subj:d}_ses-BL_T1w.nii.gz -all"
+  subprocess.run(cmd.format(sub=subIdx), text=True, shell=True, check=True)
+
+with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
+  pmap.compute()
+```
+
+...with [system binaries]{.esi-emph}
+
+```{.python style="font-size: 0.8em; "}
+import subprocess
+
+def freesurf_preproc(subIdx):
+  cmd = "recon-all -s sub-{subj:d} -i sub-{subj:d}_ses-BL_T1w.nii.gz -all"
+  subprocess.run(cmd.format(sub=subIdx), text=True, shell=True, check=True)
+
+with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
+  pmap.compute()
+```
+
+...and [FORTRAN]{.esi-emph}, [Java]{.esi-emph}, [Octave]{.esi-emph}, ...
+
+## ACME
+
+::: {.incremental style="font-size: 0.9em; " .absolute .position bottom="1em"}
+- enables [separation of analysis tools from parallelization framework]{.esi-emph}
+- [application-agnostic]{.esi-emph} (has been used for math optimization, neural networks, fMRI etc.)
+- based on existing [robust parallel computing libraries]{.esi-emph} (dask, dask-jobqueue)
+- [small network footprint]{.esi-emph} by shifting concurrency to filesystem
+- fully [open-source on [GitHub](https://github.com/esi-neuroscience/acme)]{.esi-emph} PRs welcome!
+- open to [[include more HPC centers]{.esi-epmh}]{.esi-emph}
+
+  ``<your-institution-here>_cluster_setup``
+:::
 
 ## Thank You
 
 Photos?
+
+## Clippings
+
+https://data.gov/
+https://www.govdata.de/
+https://www.nature.com/sdata/
 

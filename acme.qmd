@@ -692,16 +692,34 @@ with ParallelMap(hyper_par_tuning, np.linspace(1e-3, 1e-6, 100)) as pmap:
 
 ...with [R]{.esi-emph}
 
+```{.R style="font-size: 0.8em; " filename="some_code.R"}
+sample_stats <- function(d_mu, d_sd) {
+    samp <- rnorm(10^6, d_mu, d_sd)
+    c(s_mu = mean(samp), s_sd = sd(samp))
+}
+```
+
+::: {style="height: 1em; "}
+:::
+
+. . .
+
 ```{.python style="font-size: 0.8em; "}
-import subprocess
+from rpy2.robjects.packages import STAP
 
-def freesurf_preproc(subIdx):
-  cmd = "recon-all -s sub-{subj:d} -i sub-{subj:d}_ses-BL_T1w.nii.gz -all"
-  subprocess.run(cmd.format(sub=subIdx), text=True, shell=True, check=True)
+def sample_stats(mu, sd):
+  with open("some_code.R", "r") as Rfile:
+    Rcode = Rfile.read()
+  some_code = STAP(Rcode, "sample_stats")
+  return np.array(some_code.sample_stats(mu, sd))
 
-with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
+with ParallelMap(some_code.sample_stats, [2, 4, 6, 8], [3, 5, 7, 9]) as pmap:
   pmap.compute()
 ```
+
+## Why Python? {auto-animate="true"}
+
+[Interfaces]{.esi-emph}...
 
 ...with [system binaries]{.esi-emph}
 
@@ -715,6 +733,8 @@ def freesurf_preproc(subIdx):
 with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
   pmap.compute()
 ```
+
+. . .
 
 ...and [FORTRAN]{.esi-emph}, [Java]{.esi-emph}, [Octave]{.esi-emph}, ...
 

@@ -2,13 +2,15 @@
 title: "ACME"
 subtitle: "Flexible Scalability for Research Software"
 author:
-  - Stefan Fürtinger, ESI Frankfurt
-  - Dr. Allison Horst, UC Santa Barbara
-  - Dr. Alison Hill, Voltron Data
-date: 23.02.2023
+  - Stefan </br> Fürtinger
+  - Katharine Shapcott
+  - Joscha Tapani Schmiedt
+date: February 23 2023
+date-format: long
 institute:
-  - ESI
-  - Bremen
+  - Ernst Strüngmann Institute (ESI) Frankfurt
+  - Ernst Strüngmann Institute (ESI) Frankfurt
+  - Brain Research Institute Universität Bremen
 format:
   revealjs:
     theme: [white, css/esi.scss]
@@ -30,8 +32,6 @@ filters:
 auto-agenda:
   bullets: none
   heading: Outline
-# resources:
-#   - demo.pdf
 ---
 
 # I Big Data Is Great
@@ -47,7 +47,7 @@ auto-agenda:
 See [sas.com](https://www.sas.com/en_us/insights/big-data/what-is-big-data.html) and [bmbf.de](https://www.bmbf.de/bmbf/de/forschung/digitale-wirtschaft-und-gesellschaft/informationsgesellschaft/big-data/big-data-management-und-analyse-grosser-datenmengen.html)
 :::
 
-## Big Data | Open Data {transition="fade"}
+## Big Data | Open Data {transition="fade" visibility="uncounted"}
 
 ::: {.r-stack}
 ![](imgs/sas_bigdata.png){.absolute top="2em" right="0em" width="55%"}
@@ -60,7 +60,7 @@ See [sas.com](https://www.sas.com/en_us/insights/big-data/what-is-big-data.html)
 Taken from [itsfoss.com](https://itsfoss.com/open-science/) and [JulieBeck](http://www.juliebcreative.com/portfolio/open-data-logo/)
 :::
 
-## Big Data | Open Data | FAIR Data {transition="fade-in"}
+## Big Data | Open Data | FAIR Data {transition="fade-in" visibility="uncounted"}
 
 ::: {.r-stack}
 ![](imgs/sas_bigdata.png){.absolute top="2em" right="0em" width="55%"}
@@ -130,7 +130,12 @@ Taken from *Jaws*, Universal Pictures, 1975 and [The Nautical Lore Capercast](ht
 
 ## We Bought a Quadmaran!
 
-Scheduler logos coming soon...
+![](imgs/pbs_logo.jpeg){.fragment .absolute top="2.5em" left="3em" width="15%"}
+![](imgs/sge_logo.png){.fragment .absolute top="4em" left="14em" width="30%"}
+![](imgs/lsf_logo.png){.fragment .absolute top="7.5em" left="12em" width="40%"}
+![](imgs/moab_logo.jpg){.fragment .absolute top="7.5em" left="3em" width="30%"}
+![](imgs/condor_logo.png){.fragment .absolute top="12em" left="2em" width="30%"}
+![](imgs/slurm_logo.png){.fragment .absolute top="10.5em" right="5em" width="15%"}
 
 # II Why ACME?
 
@@ -415,6 +420,43 @@ if __name__ == "__main__":
 
 [...[or]{.esi-emph}]{.position .absolute left="10em" bottom="1em"}
 
+## Back To SLURM Connectomes... {auto-animate="true"}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap
+```
+
+## Back To SLURM Connectomes... {auto-animate="true"}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap
+     from dask_jobqueue import SLURMCluster
+```
+
+. . .
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: cluster = SLURMCluster(queue="8GBXS", cores=1, memory="8GB", processes=1,
+                            local_directory="/path/to/somewhere", python=sys.executable,
+                            job_directives_skip=["-t", "--mem"])
+     cluster.scale(10)
+```
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap
+```
+
 ## Back To SLURM Connectomes... {auto-animate=true}
 
 ### ...in Jupyter
@@ -428,6 +470,24 @@ if __name__ == "__main__":
 
 ```{.python data-id="jupyter2" style="font-size: 0.8em; "}
 [2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+
+## Back To SLURM Connectomes... {auto-animate=true}
+
+### ...in Jupyter
+
+```{.python data-id="jupyter1" style="font-size: 0.8em; "}
+[1]: from connecomte import compute_connectome, subjectList
+     from acme import ParallelMap, esi_cluster_setup
+```
+
+```{.python data-id="jupyter2" style="font-size: 0.8em; "}
+[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
+```
+```{data-id="jupyter2" style="font-size: 0.4em; "}
+<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
+<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
+<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
 ```
 
 ## Back To SLURM Connectomes... {auto-animate=true}
@@ -742,7 +802,9 @@ with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
 
 ::: {.incremental style="font-size: 0.9em; " .absolute .position bottom="1em"}
 - enables [separation of analysis tools from parallelization framework]{.esi-emph}
-- [application-agnostic]{.esi-emph} (has been used for math optimization, neural networks, fMRI etc.)
+- [application-agnostic]{.esi-emph}: has been used for math optimization,
+  neural networks, fMRI and is the parallelization engine of
+  ![](imgs/syncopy_logo.svg){.absolute .position top="3.7em" right="2.8em" width="15%"}
 - based on existing [robust parallel computing libraries]{.esi-emph} (dask, dask-jobqueue)
 - [small network footprint]{.esi-emph} by shifting concurrency to filesystem
 - fully [open-source on [GitHub](https://github.com/esi-neuroscience/acme)]{.esi-emph} PRs welcome!
@@ -751,11 +813,38 @@ with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
   ``<your-institution-here>_cluster_setup``
 :::
 
-## Thank You
+##
+<!-- ## {background-image="imgs/sbatch_schedmd.gif" background-opacity="0.2"} -->
 
-Photos?
+::: {style="height: 0.8em; "}
+:::
 
-## Clippings
+::: {.r-fit-text}
+Thank You For Your Attention!
+:::
+
+[**GitHub**]{.absolute top="10.5em" left="0em" style="font-size: 0.9em; "}
+
+![](imgs/me.jpeg){.absolute top="4em" left="3em" width="16%"}
+[Stefan]{.absolute top="9.5em" left="4.5em" style="font-size: 0.9em; "}
+[@pantaray]{.absolute top="10.5em" left="3.5em" style="font-size: 0.9em; "}
+
+![](imgs/katharine.jpg){.absolute top="4em" left="10.5em" width="16%"}
+[Katharine]{.absolute top="9.5em" left="12em" style="font-size: 0.9em; "}
+[@KatharineShapcott]{.absolute top="10.5em" left="10em" style="font-size: 0.9em; "}
+
+![](imgs/joscha.jpeg){.absolute top="4em" left="18.7em" width="16%"}
+[Joscha]{.absolute top="9.5em" left="21.7em" style="font-size: 0.9em; "}
+[@joschaschmiedt]{.absolute top="10.5em" left="20em" style="font-size: 0.9em; "}
+
+![](imgs/acme_logo.png){.absolute top="11em" left="2em" width="15%"}
+[[https://github.com/esi-neuroscience/acme](https://github.com/esi-neuroscience/acme)]{.absolute top="14em" left="8em" style="font-size: 0.9em; "}
+
+[**Contact**: [stefan.fuertinger@esi-frankfurt.de](stefan.fuertinger@esi-frankfurt.de)]{.absolute top="16.5em" left="5em" style="font-size: 0.9em; "}
+
+## Clippings {visibility="hidden"}
+
+fastMRI: 1.5/3.0 Tesla
 
 https://data.gov/
 https://www.govdata.de/

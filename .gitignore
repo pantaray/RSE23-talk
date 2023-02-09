@@ -3,3 +3,4 @@
 acme.html
 /.luarc.json
 nilearn_cache/
+nilearn*.html

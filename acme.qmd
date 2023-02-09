@@ -833,7 +833,34 @@ with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
 :::
 
 ##
-<!-- ## {background-image="imgs/sbatch_schedmd.gif" background-opacity="0.2"} -->
+
+::: {style="height: 0.8em; "}
+:::
+
+::: {.r-fit-text}
+Thank You For Your Attention!
+:::
+
+[**GitHub**]{.absolute top="10.5em" left="0em" style="font-size: 0.9em; "}
+
+![](imgs/me.jpeg){.absolute top="4em" left="3em" width="16%"}
+[Stefan]{.absolute top="9.5em" left="4.5em" style="font-size: 0.9em; "}
+[@pantaray]{.absolute top="10.5em" left="3.5em" style="font-size: 0.9em; "}
+
+![](imgs/katharine.jpg){.absolute top="4em" left="10.5em" width="16%"}
+[Katharine]{.absolute top="9.5em" left="12em" style="font-size: 0.9em; "}
+[@KatharineShapcott]{.absolute top="10.5em" left="10em" style="font-size: 0.9em; "}
+
+![](imgs/joscha.jpeg){.absolute top="4em" left="18.7em" width="16%"}
+[Joscha]{.absolute top="9.5em" left="21.7em" style="font-size: 0.9em; "}
+[@joschaschmiedt]{.absolute top="10.5em" left="20em" style="font-size: 0.9em; "}
+
+![](imgs/acme_logo.png){.absolute top="11em" left="2em" width="15%"}
+[[https://github.com/esi-neuroscience/acme](https://github.com/esi-neuroscience/acme)]{.absolute top="14em" left="8em" style="font-size: 0.9em; "}
+
+[**Contact**: [stefan.fuertinger@esi-frankfurt.de](stefan.fuertinger@esi-frankfurt.de)]{.absolute top="16.5em" left="5em" style="font-size: 0.9em; "}
+
+## {background-video="imgs/acme_nilearn_demo.gif" background-opacity="0.2"}
 
 ::: {style="height: 0.8em; "}
 :::

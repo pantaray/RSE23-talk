@@ -149,14 +149,14 @@ Taken from *Jaws*, Universal Pictures, 1975 and [The Nautical Lore Capercast](ht
 ::: -->
 
 
-## New Toys!
+<!-- ## New Toys!
 
 ![](imgs/pbs_logo.jpeg){.fragment .absolute top="2.5em" left="3em" width="15%"}
 ![](imgs/sge_logo.png){.fragment .absolute top="4em" left="14em" width="30%"}
 ![](imgs/lsf_logo.png){.fragment .absolute top="7.5em" left="12em" width="40%"}
 ![](imgs/moab_logo.jpg){.fragment .absolute top="7.5em" left="3em" width="30%"}
 ![](imgs/condor_logo.png){.fragment .absolute top="12em" left="2em" width="30%"}
-![](imgs/slurm_logo.png){.fragment .absolute top="10.5em" right="5em" width="15%"}
+![](imgs/slurm_logo.png){.fragment .absolute top="10.5em" right="5em" width="15%"} -->
 
 # II Why ACME?
 

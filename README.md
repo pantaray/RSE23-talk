@@ -16,3 +16,15 @@ Then generate a generic `index.html` by creating a symlink to the produced
 ```shell
 ln -s acme.html index.html
 ```
+
+## Publish to website
+
+First, set `embed-resources: false` (many hosters find ~100MB html files
+suspicious...), then
+
+```shell
+quarto render acme.qmd --output-dir rse23
+```
+
+Then copy the entire contents of `subdom` to the desired webspace and
+check the result in a browser, e.g., www.fuertingers.science/rse23

@@ -14,7 +14,7 @@ institute:
 format:
   revealjs:
     theme: [white, css/esi.scss]
-    slide-number: false
+    slide-number: c
     menu: true
     progress: true
     chalkboard: false
@@ -24,7 +24,7 @@ format:
     code-line-numbers: false
     highlight-style: github
     auto-play-media: true
-    embed-resources: true
+    embed-resources: false
     pdf-separate-fragments: true
 include-after-body: css/esi_borders.html
 revealjs-plugins:
@@ -442,7 +442,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap
 ```
 
@@ -451,7 +451,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap
      from dask_jobqueue import SLURMCluster
 ```
@@ -470,7 +470,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap
 ```
 
@@ -479,7 +479,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap, esi_cluster_setup
 ```
 
@@ -494,7 +494,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap, esi_cluster_setup
 ```
 
@@ -512,7 +512,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap, esi_cluster_setup
 ```
 
@@ -537,7 +537,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap, esi_cluster_setup
 ```
 
@@ -564,7 +564,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap, esi_cluster_setup
 ```
 
@@ -597,7 +597,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap, esi_cluster_setup
 ```
 
@@ -631,7 +631,7 @@ if __name__ == "__main__":
 ### ...in Jupyter
 
 ```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connecomte import compute_connectome, subjectList
+[1]: from connectome import compute_connectome, subjectList
      from acme import ParallelMap, esi_cluster_setup
 ```
 
@@ -705,13 +705,13 @@ if __name__ == "__main__":
 
 ## Communication via Filesystem
 
-::: {.r-stack}
-![](imgs/virtual_dataset_illustration0.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
-![](imgs/virtual_dataset_illustration1.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
-![](imgs/virtual_dataset_illustration2.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
-![](imgs/virtual_dataset_illustration3.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
-![](imgs/virtual_dataset_illustration4.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
-:::
+<!-- ::: {.r-stack}
+![](imgs/virtual_dataset_illustration_i.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
+![](imgs/virtual_dataset_illustration_ii.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
+::: -->
+
+![](imgs/virtual_dataset_illustration_ii.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="100%"}
+
 
 # III An Offer You Can Refuse
 
@@ -815,10 +815,23 @@ with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
 
 ...and [FORTRAN]{.esi-emph}, [Java]{.esi-emph}, [Octave]{.esi-emph}, ...
 
-## ACME
+## ACME {visibilty="uncounted"}
+
+## ACME is [not]{style="color: red"}
+
+::: {.incremental style="font-size: 1.0em; " .absolute .position top="3em"}
+- a general purpose parallelization framework
+- up for tasks requiring inter-worker communication
+- built for for processing shared distributed data structures
+- tuned for best performance possible
+- a great way to tackle CFD problems/PDE discretizations
+- another `sbatch` wrapper
+:::
+
+## ACME [is]{.esi-emph}
 
 ::: {.incremental style="font-size: 0.9em; " .absolute .position bottom="1em"}
-- enables [separation of analysis tools from parallelization framework]{.esi-emph}
+- made for [easy-to-use parallelization]{.esi-emph} of code not written with concurrency in mind
 - [application-agnostic]{.esi-emph}: has been used for math optimization,
   neural networks, fMRI and is the parallelization engine of
   ![](imgs/syncopy_logo.svg){.absolute .position top="3.7em" right="2.8em" width="15%"}
@@ -888,9 +901,9 @@ Thank You For Your Attention!
 
 ## Clippings {visibility="hidden"}
 
-fastMRI: 1.5/3.0 Tesla
-
-https://data.gov/
-https://www.govdata.de/
-https://www.nature.com/sdata/
-
+- explain fMRI!!!
+- fastMRI: 1.5/3.0 Tesla
+- many people do stuff embarassingly parallel!
+- specify ACME Audience!
+- parallelization for people who do not care about parallelization!
+- it's GNU parallel w/SLURM

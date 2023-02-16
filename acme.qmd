@@ -705,12 +705,12 @@ with ParallelMap(freesurf_preproc, np.arange(101, 151)) as pmap:
 ## ACME is [not]{style="color: red"}
 
 ::: {.incremental style="font-size: 1.0em; " .absolute .position top="3em"}
+- another `sbatch` wrapper
+- tuned for best performance possible
 - a general purpose parallelization framework
 - up for tasks requiring inter-worker communication
 - built for for processing shared distributed data structures
-- tuned for best performance possible
 - a great way to tackle CFD problems/PDE discretizations
-- another `sbatch` wrapper
 :::
 
 ## ACME [is]{.esi-emph}

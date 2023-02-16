@@ -392,56 +392,11 @@ if __name__ == "__main__":
 <slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
 ```
 
-## Back To SLURM Connectomes... {auto-animate=true}
-
-### ...in Jupyter
-
-```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connectome import compute_connectome, subjectList
-     from acme import ParallelMap, esi_cluster_setup
-```
-
-```{.python data-id="jupyter2" style="font-size: 0.8em; "}
-[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
-```
-```{data-id="jupyter2" style="font-size: 0.4em; "}
-<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
-<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
-<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
-```
-
 . . .
 
 ```{.python data-id="jupyter3" style="font-size: 0.8em; "}
 [3]: with ParallelMap(compute_connectome, subjectList, result_shape=(264, 264, None))) as pmap:
          results = pmap.compute()
-```
-
-## Back To SLURM Connectomes... {auto-animate=true}
-
-### ...in Jupyter
-
-```{.python data-id="jupyter1" style="font-size: 0.8em; "}
-[1]: from connectome import compute_connectome, subjectList
-     from acme import ParallelMap, esi_cluster_setup
-```
-
-```{.python data-id="jupyter2" style="font-size: 0.8em; "}
-[2]: myClient = esi_cluster_setup(n_workers=10, partition="8GBXS")
-```
-```{data-id="jupyter2" style="font-size: 0.4em; "}
-<slurm_cluster_setup> Requested worker-count 10 exceeds `n_workers_startup`: waiting for 1 workers to come online, then proceed
-<slurm_cluster_setup> SLURM workers ready: 1/1 	[elapsed time 00:05 | timeout at 01:00]
-<slurm_cluster_setup> Cluster dashboard accessible at http://10.100.32.17:40043/status
-```
-
-```{.python data-id="jupyter3" style="font-size: 0.8em; "}
-[3]: with ParallelMap(compute_connectome, subjectList, result_shape=(264, 264, None))) as pmap:
-         results = pmap.compute()
-```
-```{data-id="jupyter3" style="font-size: 0.4em; " code-line-numbers="2-3"}
-<ParallelMap> INFO: This is ACME v. 2022.12
-<ParallelMap> INFO: Attaching to global parallel computing client <Client: 'tcp://10.100.32.17:33661' processes=10 threads=10, memory=74.50 GiB>
 ```
 
 ## Back To SLURM Connectomes... {auto-animate=true}
@@ -577,8 +532,6 @@ if __name__ == "__main__":
  '/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome_payload/compute_connectome_3.h5',
  '/cs/home/fuertingers/ACME_20230206-122528-965199/compute_connectome_payload/compute_connectome_4.h5']
 ```
-
-. . .
 
 ::: {.incremental style="font-size: 0.85em; "}
 - single [aggregate results file]{.esi-emph} `compute_connectome.h5`

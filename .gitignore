@@ -1,5 +1,6 @@
 /.quarto/
 *_files/
+/_site/
 acme.html
 /.luarc.json
 nilearn_cache/

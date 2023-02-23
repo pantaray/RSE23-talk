@@ -1,0 +1,29 @@
+ /* Settings for auto-generated "Outline" slides */
+#agenda {
+}
+
+/* The actual Agenda heading slides should not be shown */
+.agenda-slide h1 {
+  size: 0em;
+  display: none;
+}
+
+/* The agenda heading, if specified */
+.agenda-heading {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-bottom: 2em;
+  margin-top: -3em;
+}
+
+.agenda-inactive {
+  opacity: 0.25;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.agenda-active {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+

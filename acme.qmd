@@ -5,7 +5,7 @@ author:
   - Stefan </br> Fürtinger
   - Katharine Shapcott
   - Joscha Tapani Schmiedt
-date: February 23 2023
+date: February 21 2023
 date-format: long
 institute:
   - Ernst Strüngmann Institute (ESI) Frankfurt
@@ -186,10 +186,6 @@ fuertingers 21607933_1 8GBXS esi-svhpc24 25228545 0:16 RUNNING
 ```
 
 ## Get SLURMed {transition="fade"}
-
-<!-- ```{=html}
-<iframe src="imgs/sbatch.html" width="100%" height="80%"></iframe>
-``` -->
 
 ![](imgs/sbatch_schedmd.gif)
 
@@ -543,11 +539,6 @@ if __name__ == "__main__":
 
 ## Communication via Filesystem
 
-<!-- ::: {.r-stack}
-![](imgs/virtual_dataset_illustration_i.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
-![](imgs/virtual_dataset_illustration_ii.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="95%"}
-::: -->
-
 ![](imgs/virtual_dataset_illustration_ii.png){.fragment .fade-in-then-out .absolute top="2em" right="1em" width="100%"}
 
 
@@ -736,12 +727,3 @@ Thank You For Your Attention!
 [[https://github.com/esi-neuroscience/acme](https://github.com/esi-neuroscience/acme)]{.absolute top="14em" left="8em" style="font-size: 0.9em; "}
 
 [**Contact**: [stefan.fuertinger@esi-frankfurt.de](stefan.fuertinger@esi-frankfurt.de)]{.absolute top="16.5em" left="5em" style="font-size: 0.9em; "}
-
-## Clippings {visibility="hidden"}
-
-- explain fMRI!!!
-- fastMRI: 1.5/3.0 Tesla
-- many people do stuff embarassingly parallel!
-- specify ACME Audience!
-- parallelization for people who do not care about parallelization!
-- it's GNU parallel w/SLURM
